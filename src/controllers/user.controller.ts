@@ -60,6 +60,27 @@ export class UserController {
         return reply.status(200).send(user);
     }
 
+    static async getDeletedUserById(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ) {
+        const { id } = request.params as { id: string };
+
+        const parsedId = parseInt(id);
+
+        const user = await UserController.userRepository.findByIdDeleted(
+            parsedId
+        );
+
+        if (!user) {
+            return reply.code(404).send({
+                message: "User not found",
+            });
+        }
+
+        return reply.status(200).send(user);
+    }
+
     static async deleteUser(request: FastifyRequest, reply: FastifyReply) {
         const { id } = request.params as { id: string };
 
