@@ -46,6 +46,20 @@ export class UserController {
         return reply.status(200).send(users);
     }
 
+    static async getUserById(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+
+        const parsedId = parseInt(id);
+
+        const user = await UserController.userRepository.findById(parsedId);
+
+        if (!user) {
+            return reply.code(404).send("User not found");
+        }
+
+        return reply.status(200).send(user);
+    }
+
     static async deleteUser(request: FastifyRequest, reply: FastifyReply) {
         const { id } = request.params as { id: string };
 
