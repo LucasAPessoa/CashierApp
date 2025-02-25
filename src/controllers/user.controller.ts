@@ -122,4 +122,9 @@ export class UserController {
         return reply.code(404).send({ message: "User not found" });
     }
 
+    static async getAllUsers(request: FastifyRequest, reply: FastifyReply) {
+        const users = await UserController.userRepository.findAllUsers();
+
+        return reply.code(200).send(users);
+    }
 }
