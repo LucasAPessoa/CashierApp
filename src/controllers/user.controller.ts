@@ -16,9 +16,18 @@ export class UserController {
             email
         );
 
+        const emailDeleted =
+            await UserController.userRepository.findByEmailDeleted(email);
+
         if (emailExists) {
             return reply.code(400).send({
                 message: "Email already exists",
+            });
+        }
+
+        if (emailDeleted) {
+            return reply.code(400).send({
+                message: "Account already exists, but is deleted",
             });
         }
 
