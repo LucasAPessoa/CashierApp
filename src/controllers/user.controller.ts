@@ -98,4 +98,28 @@ export class UserController {
 
         return reply.code(204).send();
     }
+    static async updateUser(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+
+        const parsedId = Number(id);
+
+        const { name, email, password } = request.body as {
+            name: string;
+            email: string;
+            password: string;
+        };
+
+        const user = await UserController.userRepository.findAllById(parsedId);
+
+        if (user) {
+            return UserController.userRepository.updateUser(
+                parsedId,
+                name,
+                email,
+                password
+            );
+        }
+        return reply.code(404).send({ message: "User not found" });
+    }
+
 }
