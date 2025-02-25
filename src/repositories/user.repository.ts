@@ -44,6 +44,15 @@ export class UserRepository {
         });
     }
 
+    async findByIdDeleted(id: number) {
+        return prisma.users.findUnique({
+            where: {
+                id: id,
+                isDeleted: true,
+            },
+        });
+    }
+
     async createUser(name: string, email: string, password: string) {
         return prisma.users.create({
             data: {
