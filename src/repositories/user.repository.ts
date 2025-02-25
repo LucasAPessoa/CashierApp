@@ -37,4 +37,14 @@ export class UserRepository {
         });
     }
 
+    async deleteUser(id: number) {
+        return prisma.users.update({
+            where: {
+                id,
+            },
+            data: {
+                isDeleted: true,
+            },
+        });
+    }
 }
