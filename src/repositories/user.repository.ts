@@ -85,4 +85,22 @@ export class UserRepository {
             },
         });
     }
+
+    async updateUser(
+        id: number,
+        name: string,
+        email: string,
+        password: string
+    ) {
+        return prisma.users.update({
+            where: {
+                id,
+            },
+            data: {
+                name,
+                email,
+                password,
+            },
+        });
+    }
 }
