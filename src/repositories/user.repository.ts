@@ -71,6 +71,10 @@ export class UserRepository {
         });
     }
 
+    async findAllUsers() {
+        return prisma.users.findMany();
+    }
+
     async deleteUser(id: number) {
         return prisma.users.update({
             where: {
