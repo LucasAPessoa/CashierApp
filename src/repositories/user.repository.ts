@@ -18,4 +18,14 @@ export class UserRepository {
             },
         });
     }
+
+    async createUser(name: string, email: string, password: string) {
+        return prisma.users.create({
+            data: {
+                name,
+                email,
+                password,
+            },
+        });
+    }
 }
