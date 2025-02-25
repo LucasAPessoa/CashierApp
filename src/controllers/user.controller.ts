@@ -30,4 +30,11 @@ export class UserController {
 
         return reply.status(200).send(user);
     }
+
+    static async getUsers(request: FastifyRequest, reply: FastifyReply) {
+        const users = await UserController.userRepository.getUsers();
+
+        return reply.status(200).send(users);
+    }
+
 }
