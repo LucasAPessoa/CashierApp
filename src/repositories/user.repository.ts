@@ -28,4 +28,13 @@ export class UserRepository {
             },
         });
     }
+
+    async getUsers() {
+        return prisma.users.findMany({
+            where: {
+                isDeleted: false,
+            },
+        });
+    }
+
 }
