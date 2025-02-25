@@ -41,7 +41,7 @@ export class UserController {
     }
 
     static async getUsers(request: FastifyRequest, reply: FastifyReply) {
-        const users = await UserController.userRepository.getUsers();
+        const users = await UserController.userRepository.findUsers();
 
         return reply.status(200).send(users);
     }
