@@ -9,4 +9,13 @@ export class UserRepository {
             },
         });
     }
+
+    async findById(id: number) {
+        return prisma.users.findUnique({
+            where: {
+                id: id,
+                isDeleted: false,
+            },
+        });
+    }
 }
