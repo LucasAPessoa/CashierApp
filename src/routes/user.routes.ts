@@ -6,4 +6,5 @@ export async function UserRoutes(app: FastifyInstance) {
     app.get("/users", UserController.getUsers);
     app.patch("/users/:id", UserController.deleteUser);
     app.get("/users/:id", UserController.getUserById);
+    app.get("/deletedUsers/:id", UserController.getDeletedUserById);
 }
