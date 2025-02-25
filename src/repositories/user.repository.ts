@@ -27,6 +27,14 @@ export class UserRepository {
         });
     }
 
+    async findAllByEmail(email: string) {
+        return prisma.users.findMany({
+            where: {
+                email: email,
+            },
+        });
+    }
+
     async createUser(name: string, email: string, password: string) {
         return prisma.users.create({
             data: {
