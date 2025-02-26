@@ -5,6 +5,8 @@ import { UserRepository } from "../repositories/user.repository";
 export class UserController {
     private static userRepository = new UserRepository();
 
+    //Cria um novo usuário
+
     static async createUser(request: FastifyRequest, reply: FastifyReply) {
         const { name, email, password } = request.body as {
             name: string;
@@ -12,12 +14,11 @@ export class UserController {
             password: string;
         };
 
-        const emailExists = await UserController.userRepository.findByEmail(
-            email
-        );
+        const emailExists =
+            await UserController.userRepository.findActiveByEmail(email);
 
         const emailDeleted =
-            await UserController.userRepository.findByEmailDeleted(email);
+            await UserController.userRepository.findDeletedByEmail(email);
 
         if (emailExists) {
             return reply.code(400).send({
@@ -27,7 +28,7 @@ export class UserController {
 
         if (emailDeleted) {
             return reply.code(400).send({
-                message: "Account already exists, but is deleted",
+                message: "Account already exists, but was deleted",
             });
         }
 
@@ -40,18 +41,27 @@ export class UserController {
         return reply.status(200).send(user);
     }
 
-    static async getUsers(request: FastifyRequest, reply: FastifyReply) {
-        const users = await UserController.userRepository.findUsers();
+    //Retorna todos os usuários ativos
+
+    static async getActiveUsers(request: FastifyRequest, reply: FastifyReply) {
+        const users = await UserController.userRepository.findActiveUsers();
 
         return reply.status(200).send(users);
     }
 
-    static async getUserById(request: FastifyRequest, reply: FastifyReply) {
+    //Retorna um usuário pelo Id
+
+    static async getActiveUserById(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ) {
         const { id } = request.params as { id: string };
 
         const parsedId = parseInt(id);
 
-        const user = await UserController.userRepository.findById(parsedId);
+        const user = await UserController.userRepository.findActiveById(
+            parsedId
+        );
 
         if (!user) {
             return reply.code(404).send("User not found");
@@ -59,6 +69,8 @@ export class UserController {
 
         return reply.status(200).send(user);
     }
+
+    //Retorna um usuário deletado pelo Id
 
     static async getDeletedUserById(
         request: FastifyRequest,
@@ -68,7 +80,7 @@ export class UserController {
 
         const parsedId = parseInt(id);
 
-        const user = await UserController.userRepository.findByIdDeleted(
+        const user = await UserController.userRepository.findDeletedById(
             parsedId
         );
 
@@ -81,12 +93,24 @@ export class UserController {
         return reply.status(200).send(user);
     }
 
+    //Retorna todos os usuários, deletados ou não
+
+    static async getAllUsers(request: FastifyRequest, reply: FastifyReply) {
+        const users = await UserController.userRepository.findAllUsers();
+
+        return reply.code(200).send(users);
+    }
+
+    //Troca o campo isDeleted de um usuário para true
+
     static async deleteUser(request: FastifyRequest, reply: FastifyReply) {
         const { id } = request.params as { id: string };
 
         const parsedId = parseInt(id);
 
-        const idExists = await UserController.userRepository.findById(parsedId);
+        const idExists = await UserController.userRepository.findActiveById(
+            parsedId
+        );
 
         if (!idExists) {
             return reply.code(404).send({
@@ -98,6 +122,9 @@ export class UserController {
 
         return reply.code(204).send();
     }
+
+    //Atualiza o name, email e password de um usuário
+
     static async updateUser(request: FastifyRequest, reply: FastifyReply) {
         const { id } = request.params as { id: string };
 
@@ -120,11 +147,5 @@ export class UserController {
             );
         }
         return reply.code(404).send({ message: "User not found" });
-    }
-
-    static async getAllUsers(request: FastifyRequest, reply: FastifyReply) {
-        const users = await UserController.userRepository.findAllUsers();
-
-        return reply.code(200).send(users);
     }
 }
