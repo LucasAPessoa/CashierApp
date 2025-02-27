@@ -54,4 +54,12 @@ export class CategoriyRepository {
             },
         });
     }
+
+    async findCategoryByName(name: string) {
+        return prisma.categories.findFirst({
+            where: {
+                name: name,
+            },
+        });
+    }
 }
