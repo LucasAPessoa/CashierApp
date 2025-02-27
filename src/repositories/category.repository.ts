@@ -27,4 +27,8 @@ export class CategoriyRepository {
             },
         });
     }
+
+    async findAllCategories() {
+        return prisma.categories.findMany();
+    }
 }
