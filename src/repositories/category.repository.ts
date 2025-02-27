@@ -19,4 +19,12 @@ export class CategoriyRepository {
             },
         });
     }
+
+    async findAllCategoryById(id: number) {
+        return prisma.categories.findUnique({
+            where: {
+                id: id,
+            },
+        });
+    }
 }
