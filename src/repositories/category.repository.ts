@@ -10,4 +10,13 @@ export class CategoriyRepository {
             },
         });
     }
+
+    async findDeletedCategoryById(id: number) {
+        return prisma.categories.findUnique({
+            where: {
+                id: id,
+                deletedAt: { not: null },
+            },
+        });
+    }
 }
