@@ -27,4 +27,13 @@ export class CategoryController {
 
         return reply.status(200).send(category);
     }
+
+    static async getAllCategories(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ) {
+        const categories =
+            await CategoryController.categoriyRepository.findAllCategories();
+        return reply.status(200).send(categories);
+    }
 }
