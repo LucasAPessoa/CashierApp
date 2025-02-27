@@ -22,3 +22,17 @@ model Users {
 
   @@map("users")
 }
+
+enum CategoryType {
+  CREDIT
+  DEBIT
+}
+
+model Categories {
+  id        Int          @id @default(autoincrement())
+  name      String
+  type      CategoryType
+  deletedAt DateTime?
+
+  @@map("categories")
+}
