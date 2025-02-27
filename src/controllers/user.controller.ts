@@ -15,10 +15,10 @@ export class UserController {
         };
 
         const emailExists =
-            await UserController.userRepository.findActiveByEmail(email);
+            await UserController.userRepository.findActiveUserByEmail(email);
 
         const emailDeleted =
-            await UserController.userRepository.findDeletedByEmail(email);
+            await UserController.userRepository.findDeleteUserByEmail(email);
 
         if (emailExists) {
             return reply.code(400).send({
@@ -59,7 +59,7 @@ export class UserController {
 
         const parsedId = parseInt(id);
 
-        const user = await UserController.userRepository.findActiveById(
+        const user = await UserController.userRepository.findActiveUserById(
             parsedId
         );
 
@@ -80,7 +80,7 @@ export class UserController {
 
         const parsedId = parseInt(id);
 
-        const user = await UserController.userRepository.findDeletedById(
+        const user = await UserController.userRepository.findDeletedUserById(
             parsedId
         );
 
@@ -108,7 +108,7 @@ export class UserController {
 
         const parsedId = parseInt(id);
 
-        const idExists = await UserController.userRepository.findActiveById(
+        const idExists = await UserController.userRepository.findActiveUserById(
             parsedId
         );
 

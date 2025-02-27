@@ -3,7 +3,7 @@ import { prisma } from "../lib/prisma";
 export class UserRepository {
     //Retorna um usuário pelo Email
 
-    async findActiveByEmail(email: string) {
+    async findActiveUserByEmail(email: string) {
         return prisma.users.findUnique({
             where: {
                 email: email,
@@ -14,7 +14,7 @@ export class UserRepository {
 
     //Retorna um usuário pelo Id
 
-    async findActiveById(id: number) {
+    async findActiveUserById(id: number) {
         return prisma.users.findUnique({
             where: {
                 id: id,
@@ -35,7 +35,7 @@ export class UserRepository {
 
     //Retorna um usuário, deletado ou não, pelo Email
 
-    async findAllByEmail(email: string) {
+    async findAllUsersByEmail(email: string) {
         return prisma.users.findMany({
             where: {
                 email: email,
@@ -45,7 +45,7 @@ export class UserRepository {
 
     //Retorna um usuário deletado pelo Email
 
-    async findDeletedByEmail(email: string) {
+    async findDeleteUserByEmail(email: string) {
         return prisma.users.findUnique({
             where: {
                 email: email,
@@ -56,7 +56,7 @@ export class UserRepository {
 
     //Retorna um usuário deletado pelo Id
 
-    async findDeletedById(id: number) {
+    async findDeletedUserById(id: number) {
         return prisma.users.findUnique({
             where: {
                 id: id,
