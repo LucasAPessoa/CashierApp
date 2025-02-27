@@ -46,4 +46,12 @@ export class CategoriyRepository {
         });
     }
 
+    async createCategory(name: string, type: CategoryType) {
+        return prisma.categories.create({
+            data: {
+                name,
+                type,
+            },
+        });
+    }
 }
