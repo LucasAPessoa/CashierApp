@@ -36,4 +36,20 @@ export class CategoryController {
             await CategoryController.categoriyRepository.findAllCategories();
         return reply.status(200).send(categories);
     }
+
+    static async getCategoryById(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+
+        const parsedId = parseInt(id);
+
+        const category =
+            await CategoryController.categoriyRepository.findActiveCategoryById(
+                parsedId
+            );
+
+        if (!category) {
+            return reply.code(404).send({ message: "Category not found" });
+        }
+        return reply.status(200).send(category);
+    }
 }
