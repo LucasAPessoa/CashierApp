@@ -38,4 +38,12 @@ export class CategoriyRepository {
             },
         });
     }
+    async findAllActiveCategories() {
+        return prisma.categories.findMany({
+            where: {
+                deletedAt: null,
+            },
+        });
+    }
+
 }
