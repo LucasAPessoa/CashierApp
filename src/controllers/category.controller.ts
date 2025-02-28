@@ -60,4 +60,10 @@ export class CategoryController {
         return CategoryController.categoriyRepository.findDeletedCategories();
     }
 
+    static async getActiveCategories(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ) {
+        return CategoryController.categoriyRepository.findActiveCategories();
+    }
 }
