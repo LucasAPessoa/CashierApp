@@ -2,6 +2,7 @@ import { CategoryType } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 export class CategoriyRepository {
+    //Retorna uma categoria pelo Id
     async findActiveCategoryById(id: number) {
         return prisma.categories.findUnique({
             where: {
@@ -11,6 +12,7 @@ export class CategoriyRepository {
         });
     }
 
+    //Retorna uma categoria deletada pelo Id
     async findDeletedCategoryById(id: number) {
         return prisma.categories.findUnique({
             where: {
@@ -20,6 +22,7 @@ export class CategoriyRepository {
         });
     }
 
+    //Retorna uma categoria, deletada ou não, pelo Id
     async findAllCategoryById(id: number) {
         return prisma.categories.findUnique({
             where: {
@@ -28,17 +31,22 @@ export class CategoriyRepository {
         });
     }
 
+    //Retorna todas as categorias
     async findAllCategories() {
         return prisma.categories.findMany();
     }
-    async findAllDeletedCategories() {
+
+    //Retorna todas as categorias deletadas
+    async findDeletedCategories() {
         return prisma.categories.findMany({
             where: {
                 deletedAt: { not: null },
             },
         });
     }
-    async findAllActiveCategories() {
+
+    //Retorna todas as categorias ativas
+    async findActiveCategories() {
         return prisma.categories.findMany({
             where: {
                 deletedAt: null,
@@ -46,6 +54,7 @@ export class CategoriyRepository {
         });
     }
 
+    //Cria uma nova categoria
     async createCategory(name: string, type: CategoryType) {
         return prisma.categories.create({
             data: {
@@ -55,6 +64,7 @@ export class CategoriyRepository {
         });
     }
 
+    //Retorna uma categoria pelo nome
     async findCategoryByName(name: string) {
         return prisma.categories.findFirst({
             where: {
