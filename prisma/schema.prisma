@@ -14,11 +14,13 @@ datasource db {
 }
 
 model Users {
-  id        Int     @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
-  email     String  @unique
+  email     String    @unique
   password  String
-  isDeleted Boolean @default(false)
+  isDeleted Boolean   @default(false)
+  Entries   Entries[]
+  Logs      Logs[]
 
   @@map("users")
 }
@@ -33,6 +35,30 @@ model Categories {
   name      String
   type      CategoryType
   deletedAt DateTime?
+  Entries   Entries[]
 
   @@map("categories")
+}
+
+model Entries {
+  id          Int        @id @default(autoincrement())
+  userId      Int
+  categoryId  Int
+  category    Categories @relation(fields: [categoryId], references: [id])
+  user        Users      @relation(fields: [userId], references: [id])
+  value       Float
+  description String?
+  createdAt   DateTime   @default(now())
+
+  @@map("entries")
+}
+
+model Logs {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      Users    @relation(fields: [userId], references: [id])
+  action    String
+  createdAt DateTime @default(now())
+
+  @@map("logs")
 }
