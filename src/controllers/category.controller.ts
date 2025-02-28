@@ -52,4 +52,12 @@ export class CategoryController {
         }
         return reply.status(200).send(category);
     }
+
+    static async getDeletedCategories(
+        request: FastifyRequest,
+        reply: FastifyReply
+    ) {
+        return CategoryController.categoriyRepository.findDeletedCategories();
+    }
+
 }
