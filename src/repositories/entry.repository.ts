@@ -23,4 +23,19 @@ export class EntryRepository {
         return await prisma.entries.findMany({});
     }
 
+    async createEntry(
+        user: number,
+        category: number,
+        value: number,
+        description: string
+    ) {
+        return await prisma.entries.create({
+            data: {
+                userId: user,
+                categoryId: category,
+                value: value,
+                description: description,
+            },
+        });
+    }
 }
