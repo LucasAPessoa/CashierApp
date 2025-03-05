@@ -75,7 +75,7 @@ export class CategoriyRepository {
 
     //Deleta uma categoria pelo Id
 
-    async deleteCategoryById(id: number) {
+    async deleteCategory(id: number) {
         return prisma.categories.update({
             where: {
                 id,
