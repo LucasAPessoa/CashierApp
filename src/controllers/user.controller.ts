@@ -64,7 +64,7 @@ export class UserController {
         );
 
         if (!user) {
-            return reply.code(404).send("User not found");
+            return reply.code(404).send({ message: "User not found" });
         }
 
         return reply.status(200).send(user);
