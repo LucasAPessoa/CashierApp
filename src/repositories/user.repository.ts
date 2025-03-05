@@ -126,7 +126,7 @@ export class UserRepository {
         });
     }
 
-    //Restaura um usuário deletado pelo Id
+    //Restaura um usuário deletado pelo Email
     async restoreUserByEmail(email: string) {
         return prisma.users.update({
             where: {
