@@ -7,6 +7,7 @@ export class EntryController {
     static async getActiveCategories(req: FastifyRequest, reply: FastifyReply) {
         return await EntryController.entryRepository.findActiveEntries();
     }
+
     static async createEntry(req: FastifyRequest, reply: FastifyReply) {
         const { userId, categoryId, value, description } = req.body as {
             userId: number;
