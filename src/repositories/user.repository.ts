@@ -7,7 +7,7 @@ export class UserRepository {
         return prisma.users.findUnique({
             where: {
                 email: email,
-                isDeleted: false,
+                deletedAt: null,
             },
         });
     }
@@ -18,7 +18,7 @@ export class UserRepository {
         return prisma.users.findUnique({
             where: {
                 id: id,
-                isDeleted: false,
+                deletedAt: null,
             },
         });
     }
@@ -49,7 +49,7 @@ export class UserRepository {
         return prisma.users.findUnique({
             where: {
                 email: email,
-                isDeleted: true,
+                deletedAt: { not: null },
             },
         });
     }
@@ -60,7 +60,7 @@ export class UserRepository {
         return prisma.users.findUnique({
             where: {
                 id: id,
-                isDeleted: true,
+                deletedAt: { not: null },
             },
         });
     }
@@ -70,7 +70,7 @@ export class UserRepository {
     async findActiveUsers() {
         return prisma.users.findMany({
             where: {
-                isDeleted: false,
+                deletedAt: null,
             },
         });
     }
@@ -101,7 +101,7 @@ export class UserRepository {
                 id,
             },
             data: {
-                isDeleted: true,
+                deletedAt: new Date(),
             },
         });
     }
