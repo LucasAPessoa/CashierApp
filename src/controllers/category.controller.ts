@@ -66,4 +66,19 @@ export class CategoryController {
     ) {
         return CategoryController.categoriyRepository.findActiveCategories();
     }
+
+    static async deleteCategory(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const parsedId = parseInt(id);
+        const category =
+            await CategoryController.categoriyRepository.findAllCategoryById(
+                parsedId
+            );
+        if (!category) {
+            return reply.code(404).send({ message: "Category not found" });
+        }
+
+        await CategoryController.categoriyRepository.deleteCategory(parsedId);
+        return reply.status(200).send();
+    }
 }
