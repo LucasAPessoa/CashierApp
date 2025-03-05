@@ -9,4 +9,13 @@ export class EntryRepository {
             },
         });
     }
+
+    async findActiveEntriesByCategory(id: number) {
+        return await prisma.entries.findMany({
+            where: {
+                categoryId: id,
+                deletedAt: null,
+            },
+        });
+    }
 }
