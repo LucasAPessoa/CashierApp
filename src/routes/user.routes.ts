@@ -24,5 +24,5 @@ export async function UserRoutes(app: FastifyInstance) {
     app.get("/usersAll", UserController.getAllUsers);
 
     //Restaura um usuário deletado
-    app.post("/users/:email", UserController.restoreUser);
+    app.patch("/restoreUserByEmail/:email", UserController.restoreUser);
 }
