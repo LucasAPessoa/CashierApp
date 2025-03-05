@@ -125,4 +125,16 @@ export class UserRepository {
             },
         });
     }
+
+    //Restaura um usuário deletado pelo Id
+    async restoreUserByEmail(email: string) {
+        return prisma.users.update({
+            where: {
+                email,
+            },
+            data: {
+                deletedAt: null,
+            },
+        });
+    }
 }
