@@ -18,4 +18,9 @@ export class EntryRepository {
             },
         });
     }
+
+    async findActiveEntries() {
+        return await prisma.entries.findMany({});
+    }
+
 }
