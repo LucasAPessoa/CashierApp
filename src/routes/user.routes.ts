@@ -22,4 +22,7 @@ export async function UserRoutes(app: FastifyInstance) {
 
     //Retorna todos os usuários, deltados ou ativos
     app.get("/usersAll", UserController.getAllUsers);
+
+    //Restaura um usuário deletado
+    app.post("/users/:email", UserController.restoreUser);
 }
