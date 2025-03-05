@@ -148,4 +148,24 @@ export class UserController {
         }
         return reply.code(404).send({ message: "User not found" });
     }
+
+    //Restaura um usuário deletado
+
+    static async restoreUser(request: FastifyRequest, reply: FastifyReply) {
+        const { email } = request.params as { email: string };
+
+        if (!email) {
+            return reply.code(400).send({ message: "Email is required" });
+        }
+
+        const user = await UserController.userRepository.findDeleteUserByEmail(
+            email
+        );
+
+        if (!user) {
+            return reply.code(404).send({ message: "User not found" });
+        }
+
+        return UserController.userRepository.restoreUserByEmail(email);
+    }
 }
