@@ -54,4 +54,19 @@ export class EntryController {
             categoryId
         );
     }
+
+    static async deleteEntry(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const parsedId = parseInt(id);
+        const entry =
+            await EntryController.entryRepository.findActiveEntriesById(
+                parsedId
+            );
+        if (!entry) {
+            return reply.code(404).send({ message: "Category not found" });
+        }
+
+        await EntryController.entryRepository.deleteEntry(parsedId);
+        return reply.status(200).send(entry);
+    }
 }
