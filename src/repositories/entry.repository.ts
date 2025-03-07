@@ -38,4 +38,15 @@ export class EntryRepository {
             },
         });
     }
+
+    async deleteEntry(id: number) {
+        return prisma.entries.update({
+            where: {
+                id,
+            },
+            data: {
+                deletedAt: new Date(),
+            },
+        });
+    }
 }
