@@ -10,6 +10,12 @@ app.register(CategoryRoutes);
 app.register(UserRoutes);
 app.register(EntryRoutes);
 
-app.listen({ port: 3000, host: "localhost" }, () => {
-    console.log("Server is running on http://localhost:3000");
+const PORT = 3000;
+
+app.listen({ port: PORT, host: "localhost" }, (err, address) => {
+    if (err) {
+        console.error(err);
+        process.exit(1);
+    }
+    console.log(`Server is running on ${address}`);
 });
