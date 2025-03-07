@@ -29,4 +29,29 @@ export class EntryController {
             description
         );
     }
+
+    static async updateEntry(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+        const parsedId = parseInt(id);
+
+        if (!parsedId) {
+            return reply.code(400).send({ message: "Invalid entry id" });
+        }
+        const { categoryId, value, description } = request.body as {
+            categoryId: number;
+            value: number;
+            description: string;
+        };
+        if (!categoryId && !value && !description) {
+            return reply
+                .code(400)
+                .send({ message: "At least one field is required" });
+        }
+        return await EntryController.entryRepository.updateEntry(
+            parsedId,
+            value,
+            description,
+            categoryId
+        );
+    }
 }
