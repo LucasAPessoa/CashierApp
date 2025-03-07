@@ -69,4 +69,24 @@ export class EntryController {
         await EntryController.entryRepository.deleteEntry(parsedId);
         return reply.status(200).send(entry);
     }
+
+    static async getEntryById(request: FastifyRequest, reply: FastifyReply) {
+        const { id } = request.params as { id: string };
+
+        const parsedId = parseInt(id);
+
+        if (!parsedId) {
+            return reply.code(400).send({ message: "Invalid entry id" });
+        }
+        const entry =
+            await EntryController.entryRepository.findActiveEntriesById(
+                parsedId
+            );
+
+        if (!entry) {
+            return reply.code(404).send({ message: "Entry not found" });
+        }
+
+        return reply.status(200).send(entry);
+    }
 }
