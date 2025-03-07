@@ -49,4 +49,22 @@ export class EntryRepository {
             },
         });
     }
+
+    async updateEntry(
+        id: number,
+        value: number,
+        description: string,
+        categoryId: number
+    ) {
+        return prisma.entries.update({
+            where: {
+                id,
+            },
+            data: {
+                value,
+                description,
+                categoryId,
+            },
+        });
+    }
 }
