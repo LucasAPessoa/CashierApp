@@ -1,9 +1,10 @@
 import { prisma } from "../lib/prisma";
+import { Users } from "@prisma/client";
 
 export class UserRepository {
     //Retorna um usuário pelo Email
 
-    async findActiveUserByEmail(email: string) {
+    async findActiveUserByEmail(email: string): Promise<Users | null> {
         return prisma.users.findUnique({
             where: {
                 email: email,
@@ -14,7 +15,7 @@ export class UserRepository {
 
     //Retorna um usuário pelo Id
 
-    async findActiveUserById(id: number) {
+    async findActiveUserById(id: number): Promise<Users | null> {
         return prisma.users.findUnique({
             where: {
                 id: id,
@@ -25,7 +26,7 @@ export class UserRepository {
 
     //Retorna um usuário, deletado ou não, pelo Id
 
-    async findAllById(id: number) {
+    async findAllUsersById(id: number): Promise<Users[]> {
         return prisma.users.findMany({
             where: {
                 id: id,
@@ -35,7 +36,7 @@ export class UserRepository {
 
     //Retorna um usuário, deletado ou não, pelo Email
 
-    async findAllUsersByEmail(email: string) {
+    async findAllUsersByEmail(email: string): Promise<Users[]> {
         return prisma.users.findMany({
             where: {
                 email: email,
@@ -45,7 +46,7 @@ export class UserRepository {
 
     //Retorna um usuário deletado pelo Email
 
-    async findDeleteUserByEmail(email: string) {
+    async findDeleteUserByEmail(email: string): Promise<Users | null> {
         return prisma.users.findUnique({
             where: {
                 email: email,
@@ -56,7 +57,7 @@ export class UserRepository {
 
     //Retorna um usuário deletado pelo Id
 
-    async findDeletedUserById(id: number) {
+    async findDeletedUserById(id: number): Promise<Users | null> {
         return prisma.users.findUnique({
             where: {
                 id: id,
@@ -67,7 +68,7 @@ export class UserRepository {
 
     //Retorna todos os usuários não deletados
 
-    async findActiveUsers() {
+    async findActiveUsers(): Promise<Users[]> {
         return prisma.users.findMany({
             where: {
                 deletedAt: null,
@@ -77,13 +78,17 @@ export class UserRepository {
 
     //Retorna todos os usuários, deletados ou não
 
-    async findAllUsers() {
+    async findAllUsers(): Promise<Users[]> {
         return prisma.users.findMany();
     }
 
     //Cria um usuário
 
-    async createUser(name: string, email: string, password: string) {
+    async createUser(
+        name: string,
+        email: string,
+        password: string
+    ): Promise<Users> {
         return prisma.users.create({
             data: {
                 name,
@@ -95,7 +100,7 @@ export class UserRepository {
 
     //Deleta um usuário alternando o campo isDeleted para true
 
-    async deleteUser(id: number) {
+    async deleteUser(id: number): Promise<Users> {
         return prisma.users.update({
             where: {
                 id,
