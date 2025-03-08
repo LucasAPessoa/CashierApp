@@ -20,7 +20,7 @@ export class EntryRepository {
         });
     }
 
-    async findActiveEntries() {
+    async findActiveEntries(): Promise<Entries[]> {
         return await prisma.entries.findMany({});
     }
 
