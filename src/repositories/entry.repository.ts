@@ -11,7 +11,7 @@ export class EntryRepository {
         });
     }
 
-    async findActiveEntriesByCategory(id: number) {
+    async findActiveEntriesByCategory(id: number): Promise<Entries[]> {
         return await prisma.entries.findMany({
             where: {
                 categoryId: id,
