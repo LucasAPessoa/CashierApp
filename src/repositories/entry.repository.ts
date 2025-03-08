@@ -2,10 +2,10 @@ import { Prisma, Entries } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 export class EntryRepository {
-    async findActiveEntriesById(id: number) {
-        return await prisma.entries.findMany({
+    async findActiveEntriesById(id: number): Promise<Entries | null> {
+        return await prisma.entries.findUnique({
             where: {
-                categoryId: id,
+                id,
                 deletedAt: null,
             },
         });
