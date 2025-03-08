@@ -98,7 +98,7 @@ export class UserRepository {
         });
     }
 
-    //Deleta um usuário alternando o campo isDeleted para true
+    //Deleta um usuário alternando o campo deletedAt para a data atual
 
     async deleteUser(id: number): Promise<Users> {
         return prisma.users.update({
