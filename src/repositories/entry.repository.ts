@@ -40,7 +40,7 @@ export class EntryRepository {
         });
     }
 
-    async deleteEntry(id: number) {
+    async deleteEntry(id: number): Promise<Entries> {
         return prisma.entries.update({
             where: {
                 id,
