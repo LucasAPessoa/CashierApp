@@ -1,3 +1,4 @@
+import { Prisma, Entries } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
 export class EntryRepository {
@@ -52,19 +53,13 @@ export class EntryRepository {
 
     async updateEntry(
         id: number,
-        value: number,
-        description: string,
-        categoryId: number
-    ) {
+        data: Prisma.EntriesUpdateInput
+    ): Promise<Entries> {
         return prisma.entries.update({
             where: {
                 id,
             },
-            data: {
-                value,
-                description,
-                categoryId,
-            },
+            data,
         });
     }
 }
