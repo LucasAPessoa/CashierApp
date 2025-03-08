@@ -29,7 +29,7 @@ export class EntryRepository {
         category: number,
         value: number,
         description: string
-    ) {
+    ): Promise<Entries> {
         return await prisma.entries.create({
             data: {
                 userId: user,
