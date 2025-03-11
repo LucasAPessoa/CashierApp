@@ -11,8 +11,9 @@ Entenda "entradas" como novos lançamentos de gastos no banco de dados.
     A lógica da tabela de usuários está completa.
     A lógica das tabelas de entradas e categorias estão em desenvolvimento.
     
+- 11/03
 
--- TO-DO
-
-- Transformar o campo isDeleted da tabela de usuários para deletedAd para usar como log no futuro    OK
-- Iniciar a prototipação do projeto
+    Agora o frontend e o backend estão em um só repositório.
+    A lógica das tabelas de entradas e categorias estão completas.
+    Melhorias nas requisições serão feitas conforme o desenvolvimento do projeto (pretendo focar em construir um protótipo funcional e melhorá-lo posteriormente).
+    Início da construição do frontend.
