@@ -11,11 +11,13 @@
 @theme {
     --color-bgPrimary: #f9f9f9;
     --color-textPrimary: #000;
+    --color-btnTextPrimary: #f4eee0;
 }
 
 @layer theme {
     .dark {
         --color-bgPrimary: #021526;
         --color-textPrimary: #f4eee0;
+        --color-btnTextPrimary: ##f4eee0;
     }
 }
