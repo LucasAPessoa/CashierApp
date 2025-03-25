@@ -11,7 +11,7 @@ function FormButton({
 }) {
     return (
         <button
-            className="text-textPrimary h-8 w-36 rounded-2xl bg-blue-700"
+            className="text-btnTextPrimary h-10 w-36 rounded-full bg-blue-700 text-xl"
             formMethod={method}
             onClick={onClickFunc}
         >
