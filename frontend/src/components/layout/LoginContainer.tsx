@@ -1,7 +1,7 @@
 import LoginForm from "../forms/LoginForm";
 
 function LoginContainer() {
-    return <div className="h-max w-1/2 border-2 border-amber-950">
+    return <div className="h-80 w-1/3 rounded-3xl shadow-xl ">
         <LoginForm />
     </div> // prettier-ignore
 }
