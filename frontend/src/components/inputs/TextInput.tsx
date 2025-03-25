@@ -3,7 +3,7 @@ function TextInput() {
         <input
             type="text"
             required
-            className="border-textPrimary text-cs bordetext-fuchsia-200 h-10 rounded-full"
+            className="border-textPrimary text-cs bordetext-fuchsia-200 h-10 rounded-full border-2 p-3"
         />
     );
 }
