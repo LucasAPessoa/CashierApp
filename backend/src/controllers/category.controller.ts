@@ -1,14 +1,20 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { CategoryRepository } from "../repositories/category.repository";
+import { createCategorySchema } from "../schemas/category.schema";
 import { CategoryType } from "@prisma/client";
 export class CategoryController {
     private static CategoryRepository = new CategoryRepository();
 
     static async createCategory(request: FastifyRequest, reply: FastifyReply) {
-        const { name, type } = request.body as {
-            name: string;
-            type: CategoryType;
-        };
+        const parse = createCategorySchema.safeParse(request.body);
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const { name, type } = parse.data;
 
         const categoryExists =
             await CategoryController.CategoryRepository.findCategoryByName(
