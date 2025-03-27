@@ -6,4 +6,6 @@ export async function CategoryRoutes(app: FastifyInstance) {
     app.get("/categories", CategoryController.getAllCategories);
     app.get("/categories/:id", CategoryController.getCategoryById);
     app.delete("/deleteCategory/:id", CategoryController.deleteCategory);
+    app.get("/categories/deleted", CategoryController.getDeletedCategories);
+    app.get("/categories/active", CategoryController.getActiveCategories);
 }
