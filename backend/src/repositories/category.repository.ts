@@ -1,7 +1,7 @@
 import { CategoryType } from "@prisma/client";
 import { prisma } from "../lib/prisma";
 
-export class CategoriyRepository {
+export class CategoryRepository {
     //Retorna uma categoria pelo Id
     async findActiveCategoryById(id: number) {
         return prisma.categories.findUnique({
