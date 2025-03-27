@@ -1,6 +1,9 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { CategoryRepository } from "../repositories/category.repository";
-import { createCategorySchema } from "../schemas/category.schema";
+import {
+    createCategorySchema,
+    idParamSchema,
+} from "../schemas/category.schema";
 import { CategoryType } from "@prisma/client";
 export class CategoryController {
     private static CategoryRepository = new CategoryRepository();
@@ -44,9 +47,16 @@ export class CategoryController {
     }
 
     static async getCategoryById(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
+        const parse = idParamSchema.safeParse(request.params);
 
-        const parsedId = parseInt(id);
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const parsedId = parseInt(parse.data.id);
 
         const category =
             await CategoryController.CategoryRepository.findActiveCategoryById(
