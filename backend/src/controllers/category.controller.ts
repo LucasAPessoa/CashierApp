@@ -4,7 +4,7 @@ import {
     createCategorySchema,
     idParamSchema,
 } from "../schemas/category.schema";
-import { CategoryType } from "@prisma/client";
+
 export class CategoryController {
     private static CategoryRepository = new CategoryRepository();
 
@@ -84,12 +84,22 @@ export class CategoryController {
     }
 
     static async deleteCategory(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
-        const parsedId = parseInt(id);
+        const parse = idParamSchema.safeParse(request.params);
+
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const parsedId = parseInt(parse.data.id);
+
         const category =
             await CategoryController.CategoryRepository.findAllCategoryById(
                 parsedId
             );
+
         if (!category) {
             return reply.code(404).send({ message: "Category not found" });
         }
