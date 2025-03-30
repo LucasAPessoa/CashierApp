@@ -2,7 +2,8 @@ import { FastifyRequest, FastifyReply } from "fastify";
 import { CategoryRepository } from "../repositories/category.repository";
 import {
     createCategorySchema,
-    idParamSchema,
+    categoryGetByIdSchema,
+    categoryDeleteSchema,
 } from "../schemas/category.schema";
 
 export class CategoryController {
@@ -48,7 +49,7 @@ export class CategoryController {
     }
 
     static async getCategoryById(request: FastifyRequest, reply: FastifyReply) {
-        const parse = idParamSchema.safeParse(request.params);
+        const parse = categoryGetByIdSchema.safeParse(request.params);
 
         if (!parse.success) {
             return reply.code(400).send({
@@ -85,7 +86,7 @@ export class CategoryController {
     }
 
     static async deleteCategory(request: FastifyRequest, reply: FastifyReply) {
-        const parse = idParamSchema.safeParse(request.params);
+        const parse = categoryDeleteSchema.safeParse(request.params);
 
         if (!parse.success) {
             return reply.code(400).send({

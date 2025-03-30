@@ -7,6 +7,10 @@ export const createCategorySchema = z.object({
     type: z.nativeEnum(CategoryType),
 });
 
-export const idParamSchema = z.object({
+export const categoryGetByIdSchema = z.object({
+    id: z.number().int(),
+});
+
+export const categoryDeleteSchema = z.object({
     id: z.number().int(),
 });
