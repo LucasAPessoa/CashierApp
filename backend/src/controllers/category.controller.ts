@@ -39,7 +39,7 @@ export class CategoryController {
         return reply.status(200).send(category);
     }
 
-    static async getAllCategories(
+    static async listAllCategories(
         request: FastifyRequest,
         reply: FastifyReply
     ) {
@@ -71,14 +71,14 @@ export class CategoryController {
         return reply.status(200).send(category);
     }
 
-    static async getDeletedCategories(
+    static async listDeletedCategories(
         request: FastifyRequest,
         reply: FastifyReply
     ) {
         return CategoryController.CategoryRepository.findDeletedCategories();
     }
 
-    static async getActiveCategories(
+    static async listActiveCategories(
         request: FastifyRequest,
         reply: FastifyReply
     ) {
