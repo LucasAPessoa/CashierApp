@@ -1,7 +1,7 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { CategoryRepository } from "../repositories/category.repository";
 import {
-    createCategorySchema,
+    categoryCreateSchema,
     categoryGetByIdSchema,
     categoryDeleteSchema,
 } from "../schemas/category.schema";
@@ -10,7 +10,7 @@ export class CategoryController {
     private static CategoryRepository = new CategoryRepository();
 
     static async createCategory(request: FastifyRequest, reply: FastifyReply) {
-        const parse = createCategorySchema.safeParse(request.body);
+        const parse = categoryCreateSchema.safeParse(request.body);
 
         if (!parse.success) {
             return reply.code(400).send({

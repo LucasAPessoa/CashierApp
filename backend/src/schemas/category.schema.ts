@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { CategoryType } from "@prisma/client";
 
-export const createCategorySchema = z.object({
+export const categoryCreateSchema = z.object({
     name: z.string().min(1, "Name is required"),
     type: z.nativeEnum(CategoryType),
 });
