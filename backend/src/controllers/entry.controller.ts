@@ -41,28 +41,34 @@ export class EntryController {
     }
 
     static async updateEntry(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
-        const parsedId = parseInt(id);
-
-        if (!parsedId) {
+        const entryContent = updateIdSearchEntrySchema.safeParse(request.body);
+        if (!entryContent.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: entryContent.error.format(),
+            });
+        }
+        const { entryId, category, value, description } = entryContent.data;
+        if (!entryId) {
             return reply.code(400).send({ message: "Invalid entry id" });
         }
-        const { categoryId, value, description } = request.body as {
-            categoryId: number;
-            value: number;
-            description: string;
-        };
-        if (!categoryId && !value && !description) {
+        if (
+            category === undefined &&
+            value === undefined &&
+            description === undefined
+        ) {
             return reply
                 .code(400)
                 .send({ message: "At least one field is required" });
         }
-        return await EntryController.entryRepository.updateEntry(
-            parsedId,
-            value,
-            description,
-            categoryId
+
+        const categoryObject = { connect: { id: category } };
+
+        const updatedEntry = await EntryController.entryRepository.updateEntry(
+            entryId,
+            { category: categoryObject, value: value, description: description }
         );
+        return reply.code(200).send(updatedEntry);
     }
 
     static async deleteEntry(request: FastifyRequest, reply: FastifyReply) {
