@@ -1,5 +1,9 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { EntryRepository } from "../repositories/entry.repository";
+import {
+    createEntrySchema,
+    updateIdSearchEntrySchema,
+} from "../schemas/entry.schema";
 
 export class EntryController {
     private static entryRepository = new EntryRepository();
@@ -12,22 +16,28 @@ export class EntryController {
     }
 
     static async createEntry(request: FastifyRequest, reply: FastifyReply) {
-        const { userId, categoryId, value, description } = request.body as {
-            userId: number;
-            categoryId: number;
-            value: number;
-            description: string;
-        };
+        const newEntry = createEntrySchema.safeParse(request.body);
 
-        if (!userId || !categoryId || !value || !description) {
+        if (!newEntry.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: newEntry.error.format(),
+            });
+        }
+
+        const { user, category, value, description } = newEntry.data;
+        if (!user || !category || !value || !description) {
             return reply.code(400).send({ message: "All fields are required" });
         }
-        return EntryController.entryRepository.createEntry(
-            userId,
-            categoryId,
+        const categoryObject = { connect: { id: category } };
+        const userObject = { connect: { id: user } };
+
+        return EntryController.entryRepository.createEntry({
+            user: userObject,
+            category: categoryObject,
             value,
-            description
-        );
+            description,
+        });
     }
 
     static async updateEntry(request: FastifyRequest, reply: FastifyReply) {

@@ -10,6 +10,7 @@ export class CategoryController {
 
     static async createCategory(request: FastifyRequest, reply: FastifyReply) {
         const parse = createCategorySchema.safeParse(request.body);
+
         if (!parse.success) {
             return reply.code(400).send({
                 message: "Validation error",
