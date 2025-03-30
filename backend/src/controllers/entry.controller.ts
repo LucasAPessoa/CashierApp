@@ -1,9 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { EntryRepository } from "../repositories/entry.repository";
-import {
-    createEntrySchema,
-    updateIdSearchEntrySchema,
-} from "../schemas/entry.schema";
+import { entryCreateSchema, entryUpdateSchema } from "../schemas/entry.schema";
 
 export class EntryController {
     private static entryRepository = new EntryRepository();
@@ -16,7 +13,7 @@ export class EntryController {
     //Cria uma nova entrada
     static async createEntry(request: FastifyRequest, reply: FastifyReply) {
         //Converte o body da requisição para a interface de entrada
-        const newEntry = createEntrySchema.safeParse(request.body);
+        const newEntry = entryCreateSchema.safeParse(request.body);
 
         //Verifica se a criação da entrada foi feita corretamente
         if (!newEntry.success) {
@@ -50,7 +47,7 @@ export class EntryController {
     //Atualiza uma entrada
     static async updateEntry(request: FastifyRequest, reply: FastifyReply) {
         //Converte o body da requisição para a interface de entrada
-        const entryContent = updateIdSearchEntrySchema.safeParse(request.body);
+        const entryContent = entryUpdateSchema.safeParse(request.body);
 
         //Verifica se a criação da entrada foi feita corretamente e retorna erro caso não
         if (!entryContent.success) {
