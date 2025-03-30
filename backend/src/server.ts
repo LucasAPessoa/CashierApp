@@ -1,10 +1,13 @@
 import fastify from "fastify";
+import dotenv from "dotenv";
 
 import { UserRoutes } from "./routes/user.routes";
 import { CategoryRoutes } from "./routes/category.routes";
 import { EntryRoutes } from "./routes/entry.routes";
 
 const app = fastify();
+
+dotenv.config();
 
 app.register(CategoryRoutes);
 app.register(UserRoutes);
