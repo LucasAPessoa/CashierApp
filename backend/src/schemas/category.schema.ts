@@ -8,5 +8,5 @@ export const createCategorySchema = z.object({
 });
 
 export const idParamSchema = z.object({
-    id: z.string().regex(/^\d+$/, "ID must be a number"),
+    id: z.number().int(),
 });

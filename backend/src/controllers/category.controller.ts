@@ -57,7 +57,7 @@ export class CategoryController {
             });
         }
 
-        const parsedId = parseInt(parse.data.id);
+        const parsedId = parse.data.id;
 
         const category =
             await CategoryController.CategoryRepository.findActiveCategoryById(
@@ -94,7 +94,7 @@ export class CategoryController {
             });
         }
 
-        const parsedId = parseInt(parse.data.id);
+        const parsedId = parse.data.id;
 
         const category =
             await CategoryController.CategoryRepository.findAllCategoryById(
