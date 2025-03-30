@@ -13,3 +13,11 @@ export const entryUpdateSchema = z.object({
     value: z.number(),
     description: z.string(),
 });
+
+export const entryDeleteSchema = z.object({
+    entryId: z.number(),
+});
+
+export const entryGetByIdSchema = z.object({
+    entryId: z.number(),
+});

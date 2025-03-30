@@ -1,6 +1,11 @@
 import { FastifyRequest, FastifyReply } from "fastify";
 import { EntryRepository } from "../repositories/entry.repository";
-import { entryCreateSchema, entryUpdateSchema } from "../schemas/entry.schema";
+import {
+    entryCreateSchema,
+    entryUpdateSchema,
+    entryDeleteSchema,
+    entryGetByIdSchema,
+} from "../schemas/entry.schema";
 
 export class EntryController {
     private static entryRepository = new EntryRepository();
@@ -47,18 +52,18 @@ export class EntryController {
     //Atualiza uma entrada
     static async updateEntry(request: FastifyRequest, reply: FastifyReply) {
         //Converte o body da requisição para a interface de entrada
-        const entryContent = entryUpdateSchema.safeParse(request.body);
+        const parse = entryUpdateSchema.safeParse(request.body);
 
         //Verifica se a criação da entrada foi feita corretamente e retorna erro caso não
-        if (!entryContent.success) {
+        if (!parse.success) {
             return reply.code(400).send({
                 message: "Validation error",
-                errorMessage: entryContent.error.format(),
+                errorMessage: parse.error.format(),
             });
         }
 
         //Desestrutura o conteúdo do update
-        const { entryId, category, value, description } = entryContent.data;
+        const { entryId, category, value, description } = parse.data;
 
         //Verifica se o id da entrada é válido e retorna erro caso seja nulo
         if (!entryId) {
@@ -89,8 +94,21 @@ export class EntryController {
 
     //Deleta uma entrada
     static async deleteEntry(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
-        const parsedId = parseInt(id);
+        //Converte o body da requisição para a interface de entrada
+        const parse = entryDeleteSchema.safeParse(request.params);
+
+        //Verifica se a criação da entrada foi feita corretamente e retorna erro caso não
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        //Armazena o id da entry a ser deletada
+        const parsedId = parse.data.entryId;
+
+        //Verifica se o id da entrada existe e retorna erro caso seja nulo
         const entry =
             await EntryController.entryRepository.findActiveEntriesById(
                 parsedId
@@ -99,18 +117,23 @@ export class EntryController {
             return reply.code(404).send({ message: "Category not found" });
         }
 
+        //Deleta a entrada no banco de dados e retorna a entrada deletada
         await EntryController.entryRepository.deleteEntry(parsedId);
         return reply.status(200).send(entry);
     }
 
     static async getEntryById(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
+        const parse = entryGetByIdSchema.safeParse(request.params);
 
-        const parsedId = parseInt(id);
-
-        if (!parsedId) {
-            return reply.code(400).send({ message: "Invalid entry id" });
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
         }
+
+        const parsedId = parse.data.entryId;
+
         const entry =
             await EntryController.entryRepository.findActiveEntriesById(
                 parsedId
