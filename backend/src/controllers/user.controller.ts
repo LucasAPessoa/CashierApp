@@ -79,9 +79,7 @@ export class UserController {
 
         const id = parse.data.id;
 
-        const user = await UserController.userRepository.findActiveUserById(
-            parsedId
-        );
+        const user = await UserController.userRepository.findActiveUserById(id);
 
         if (!user) {
             return reply.code(404).send({ message: "User not found" });
