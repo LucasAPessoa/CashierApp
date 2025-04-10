@@ -96,9 +96,16 @@ export class UserController {
         request: FastifyRequest,
         reply: FastifyReply
     ) {
-        const { id } = request.params as { id: string };
+        const parse = userGetDeletedByIdSchema.safeParse(request.params);
 
-        const parsedId = parseInt(id);
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const id = parse.data.id;
 
         const user = await UserController.userRepository.findDeletedUserById(
             parsedId
