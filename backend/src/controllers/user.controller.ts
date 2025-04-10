@@ -129,12 +129,19 @@ export class UserController {
     //Troca o campo isDeleted de um usuário para true
 
     static async deleteUser(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
+        const parse = userDeleteSchema.safeParse(request.params);
 
-        const parsedId = parseInt(id);
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const id = parse.data.id;
 
         const idExists = await UserController.userRepository.findActiveUserById(
-            parsedId
+            id
         );
 
         if (!idExists) {
@@ -143,7 +150,7 @@ export class UserController {
             });
         }
 
-        await UserController.userRepository.deleteUser(parsedId);
+        await UserController.userRepository.deleteUser(id);
 
         return reply.code(204).send();
     }
