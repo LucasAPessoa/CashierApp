@@ -185,20 +185,24 @@ export class UserController {
     //Restaura um usuário deletado
 
     static async restoreUser(request: FastifyRequest, reply: FastifyReply) {
-        const { email } = request.params as { email: string };
+        const parse = userRestoreSchema.safeParse(request.body);
 
-        if (!email) {
-            return reply.code(400).send({ message: "Email is required" });
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
         }
 
-        const user = await UserController.userRepository.findDeleteUserByEmail(
-            email
+        const { id } = parse.data;
+
+        const user = await UserController.userRepository.findDeletedUserById(
+            id
         );
 
         if (!user) {
             return reply.code(404).send({ message: "User not found" });
         }
-
-        return UserController.userRepository.restoreUserByEmail(email);
+        await UserController.userRepository.restoreUser(user.id);
     }
 }
