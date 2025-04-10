@@ -158,21 +158,22 @@ export class UserController {
     //Atualiza o name, email e password de um usuário
 
     static async updateUser(request: FastifyRequest, reply: FastifyReply) {
-        const { id } = request.params as { id: string };
+        const parse = userUpdateSchema.safeParse(request.body);
 
-        const parsedId = Number(id);
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
 
-        const { name, email, password } = request.body as {
-            name: string;
-            email: string;
-            password: string;
-        };
+        const { id, name, email, password } = parse.data;
 
-        const user = await UserController.userRepository.findAllById(parsedId);
+        const user = await UserController.userRepository.findAllUsersById(id);
 
         if (user) {
             return UserController.userRepository.updateUser(
-                parsedId,
+                id,
                 name,
                 email,
                 password
