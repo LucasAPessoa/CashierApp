@@ -106,7 +106,7 @@ export class UserController {
         const id = parse.data.id;
 
         const user = await UserController.userRepository.findDeletedUserById(
-            parsedId
+            id
         );
 
         if (!user) {
