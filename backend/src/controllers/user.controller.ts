@@ -120,7 +120,7 @@ export class UserController {
 
     //Retorna todos os usuários, deletados ou não
 
-    static async getAllUsers(request: FastifyRequest, reply: FastifyReply) {
+    static async listUsers(request: FastifyRequest, reply: FastifyReply) {
         const users = await UserController.userRepository.findAllUsers();
 
         return reply.code(200).send(users);
