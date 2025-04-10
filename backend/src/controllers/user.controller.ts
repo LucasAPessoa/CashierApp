@@ -1,6 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import { UserRepository } from "../repositories/user.repository";
+import {
+    userCreateSchema,
+    userGetByIdSchema,
+    userGetDeletedByIdSchema,
+    userDeleteSchema,
+    userUpdateSchema,
+    userRestoreSchema,
+} from "../schemas/user.schema";
 
 export class UserController {
     private static userRepository = new UserRepository();
@@ -8,11 +16,16 @@ export class UserController {
     //Cria um novo usuário
 
     static async createUser(request: FastifyRequest, reply: FastifyReply) {
-        const { name, email, password } = request.body as {
-            name: string;
-            email: string;
-            password: string;
-        };
+        const parse = userCreateSchema.safeParse(request.body);
+
+        if (!parse.success) {
+            return reply.code(400).send({
+                message: "Validation error",
+                errorMessage: parse.error.format(),
+            });
+        }
+
+        const { name, email, password } = parse.data;
 
         const emailExists =
             await UserController.userRepository.findActiveUserByEmail(email);
