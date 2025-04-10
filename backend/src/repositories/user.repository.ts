@@ -132,10 +132,10 @@ export class UserRepository {
     }
 
     //Restaura um usuário deletado pelo Email
-    async restoreUserByEmail(email: string) {
+    async restoreUser(id: number) {
         return prisma.users.update({
             where: {
-                email,
+                id,
             },
             data: {
                 deletedAt: null,
