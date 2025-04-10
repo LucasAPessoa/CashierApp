@@ -56,7 +56,7 @@ export class UserController {
 
     //Retorna todos os usuários ativos
 
-    static async getActiveUsers(request: FastifyRequest, reply: FastifyReply) {
+    static async listActiveUsers(request: FastifyRequest, reply: FastifyReply) {
         const users = await UserController.userRepository.findActiveUsers();
 
         return reply.status(200).send(users);
