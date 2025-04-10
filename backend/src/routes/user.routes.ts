@@ -6,7 +6,7 @@ export async function UserRoutes(app: FastifyInstance) {
     app.post("/users", UserController.createUser);
 
     //Lista usuários ativos
-    app.get("/users", UserController.getActiveUsers);
+    app.get("/users", UserController.listActiveUsers);
 
     //Deleta um usuário
     app.patch("/users/:id", UserController.deleteUser);
@@ -21,7 +21,7 @@ export async function UserRoutes(app: FastifyInstance) {
     app.put("/users/:id", UserController.updateUser);
 
     //Retorna todos os usuários, deltados ou ativos
-    app.get("/usersAll", UserController.getAllUsers);
+    app.get("/usersAll", UserController.listUsers);
 
     //Restaura um usuário deletado
     app.patch("/restoreUserByEmail/:email", UserController.restoreUser);
